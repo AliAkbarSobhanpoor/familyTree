@@ -13,8 +13,8 @@ backend/media/
 # --------------------
 # Node / React
 # --------------------
-node_modules/
 build/
+node_modules/
 dist/
 dist-ssr/
 *.local
