@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: familyTreeDB
+      POSTGRES_USER: familyTreeAdmin
+      POSTGRES_PASSWORD: familyTreePassword123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - webnet
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./Dockerfile
+
+    command: >
+      sh -c "python manage.py migrate &&
+           python manage.py collectstatic --noinput &&
+           gunicorn config.wsgi:application --bind 0.0.0.0:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/app
+    networks:
+      - webnet
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile
+    networks:
+      - webnet
+    volumes:
+      - ./frontend/build:/app/build
+
+volumes:
+  postgres_data:
+
+networks:
+  webnet:
