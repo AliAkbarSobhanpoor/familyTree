@@ -60,7 +60,7 @@ export default class FamilyTree extends React.Component {
         ref={this.cont}
         style={{
           width: "100%",
-          height: "80vh",
+          height: "100vh",
           margin: "auto",
           backgroundColor: "rgb(33,33,33)",
           color: "#fff",
